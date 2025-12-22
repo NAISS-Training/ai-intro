@@ -1,17 +1,12 @@
-site_name: NAISS course template
-repo_url: https://github.com/UPPMAX/naiss_course_template
+site_name: Running AI/ML Workloads on NAISS Systems
+repo_url: https://github.com/NAISS-Training/ai-intro
 
 nav:
   - Start: index.md
-  - Course dates: course_dates.md
-  - Schedule: schedule.md
-  - Sessions:
-    - How to setup the rendering of the website: sessions/how_to_setup_website_rendering/README.md
-    - How to fix the spelling errors: sessions/how_to_fix_spelling_errors/README.md
 
 theme:
   name: material
-  greetings: Welcome to this NAISS course template
+  greetings: Welcome to Running AI/ML Workloads on NAISS Systems
   font:
     text: Lato
     code: JetBrains Mono
