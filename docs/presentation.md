@@ -11,24 +11,25 @@ author: "NAISS"
 <!--    - job_stats.py -->
 
 ## Scope
+
 - Will be covered:
-  - Introduction for running Deep Learning workloads on the main NAISS AI/ML resource
+    - Introduction for running Deep Learning workloads on the main NAISS AI/ML resource
 - Will **not** be covered:
-  - A general introduction to machine learning
-  - Running classical ML or GOFAI
-  - General HPC intro
+    - A general introduction to machine learning
+    - Running classical ML or GOFAI
+    - General HPC intro
 
 ## NAISS GPU resources overview
 1. **Alvis** (End-of-life 2026-06-30)
-  - NVIDIA GPUs: 332 A40s, 318 A100s, 160 T4s, 44 V100s
-  - Only for AI/ML
+    - NVIDIA GPUs: 332 A40s, 318 A100s, 160 T4s, 44 V100s
+    - Only for AI/ML
 2. Arrhenius (to be in operation spring 2026)
-  - 1528 NVIDIA GH200s
+    - 1528 NVIDIA GH200s
 3. Dardel
-  - 248 AMD MI250X
+    - 248 AMD MI250X
 4. Bianca
-  - 20 NVIDIA A100s
-  - Only for sensitive data
+    - 20 NVIDIA A100s
+    - Only for sensitive data
 
 ## Alvis specifics
 - What is potentially different on Alvis?
@@ -115,14 +116,14 @@ img.cluster_sketch{
 - When allowed, we provide popular datasets at `/mimer/NOBACKUP/Datasets/`
 - To request an additional dataset, do so through the [support form](https://supr.naiss.se/support/?problem_type=other&centre_resource=r75)
 - It is your responsibility to make sure you comply with any licenses and limitations
-  - In all cases only for non-commercial research applications
-  - Citation often needed
+    - In all cases only for non-commercial research applications
+    - Citation often needed
 - Read more on the [dataset](https://www.c3se.chalmers.se/documentation/software/machine_learning/datasets/) page and/or the respective README files
 
 ### Software
 - [Containers](https://www.c3se.chalmers.se/documentation/miscellaneous/containers/) through Apptainer
 - Optimized software in [modules]
-  - Flat module scheme, load modules directly
+    - Flat module scheme, load modules directly
 - Read the [Python instructions](https://www.c3se.chalmers.se/documentation/module_system/python/) for installing your own Python packages
 
 ### GPU hardware details
@@ -139,10 +140,10 @@ img.cluster_sketch{
 
 ### SLURM specifics
 - Main allocatable resource is `--gpus-per-node=<GPU type>:<no. gpus>`
-  - e.g. `#SBATCH --gpus-per-node=A40:1`
+    - e.g. `#SBATCH --gpus-per-node=A40:1`
 - Cores and memory are allocated proportional to number of GPUs and related node type
 - Maximum 7 days walltime
-  - Use checkpointing for longer runs
+    - Use checkpointing for longer runs
 - Jobs that don't use allocated GPUs may be automatically cancelled
 
 ### GPU cost on Alvis
@@ -161,7 +162,7 @@ img.cluster_sketch{
 
 ### Monitoring tools
 - You can SSH to nodes where you have an ongoing job
-  - From where you can use CLI tools like `htop`, `nvidia-smi`, `nvtop`, ...
+    - From where you can use CLI tools like `htop`, `nvidia-smi`, `nvtop`, ...
 - Use `job_stats.py <JOBID>` to view graphs of usage
 - `jobinfo -s` can be used to get a summary of currently available resources
 
