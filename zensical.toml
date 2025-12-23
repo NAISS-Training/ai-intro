@@ -19,8 +19,13 @@ site_author = "NAISS"
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
 # Read more: https://zensical.org/docs/setup/basics/#site_url
-#site_url = "https://www.example.com/"
 site_url = "https://naiss-training.github.io/ai-intro/"
+
+# The link to the repository will be rendered next to the search bar on big
+# screens. Additionally, for public repositories hosted on GitHub or GitLab,
+# the latest release tag1, as well as the number of stars and forks, are
+# automatically requested and rendered.
+repo_url = "https://github.com/NAISS-Training/ai-intro/"
 
 # The copyright notice appears in the page footer and can contain an HTML
 # fragment.
@@ -33,14 +38,7 @@ site_url = "https://naiss-training.github.io/ai-intro/"
 # Zensical supports both implicit navigation and explicitly defined navigation.
 # If you decide not to define a navigation here then Zensical will simply
 # derive the navigation structure from the directory structure of your
-# "docs_dir". The definition below demonstrates how a navigation structure
-# can be defined using TOML syntax.
-#
-# Read more: https://zensical.org/docs/setup/navigation/
-# nav = [
-#   { "Get started" = "index.md" },
-#   { "Markdown in 5min" = "markdown.md" },
-# ]
+# "docs_dir".
 nav = [
   {"Start" = "index.md"},
 ]
@@ -61,7 +59,6 @@ extra_css = ["stylesheets/extra.css"]
 # The path provided should be relative to the "docs_dir".
 #
 # Read more: https://zensical.org/docs/customization/#additional-javascript
-#extra_javascript = ["javascripts/extra.js"]
 extra_javascript = [
   "javascripts/mathjax.js",
   "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
@@ -95,7 +92,7 @@ logo = "logo/naiss_logo_white.png"
 # - https://zensical.org/docs/setup/logo-and-icons/#favicon
 # - https://developer.mozilla.org/en-US/docs/Glossary/Favicon
 #
-#favicon = "images/favicon.png"
+favicon = "logo/favicon.png"
 
 # Zensical supports more than 60 different languages. This means that the
 # labels and tooltips that Zensical's templates produce are translated.
