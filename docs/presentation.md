@@ -39,11 +39,11 @@ img.cluster_sketch{
 }
 </style>
 
-![The cluster environment](cluster_sketch.png){.cluster_sketch}
+![The cluster environment](images/cluster_sketch.png){.cluster_sketch}
 
 ### Connecting - Firewall
 
-![Cluster firewall only allows connection from within SUNET](cluster_firewall.png){.cluster_sketch}
+![Cluster firewall only allows connection from within SUNET](images/cluster_firewall.png){.cluster_sketch}
 
 - Firewall limits connections to within
   [SUNET](https://www.sunet.se/om-sunet/anslutna-organisationer)
