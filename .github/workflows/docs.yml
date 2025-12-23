@@ -19,8 +19,37 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: Install dependencies
       - run: pip install -r requirements.txt
+
+      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: '3.8.3'
+      - name: Build slides
+        run: |
+          # Set-up revealjs
+          DOC_ROOT="docs/"
+          SITE_ROOT="/ai-intro/"
+          slides=(
+            "${DOC_ROOT}presentation.md"
+          )
+          for f in ${slides[@]};
+          do
+            pandoc "${f}" -o "${f%.md}-slides.html"\
+              -f markdown+link_attributes-implicit_figures \
+              --standalone \
+              --slide-level=3 \
+              --mathjax \
+              -t revealjs \
+              -V "revealjs-url=https://cdn.jsdelivr.net/npm/reveal.js@5.2.1" \
+              -V "theme=white" \
+              --css "${SITE_ROOT}stylesheets/slides.css"
+          done
+
+      - name: Build site
       - run: zensical build --clean
+
+      - name: Deploy website
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site
