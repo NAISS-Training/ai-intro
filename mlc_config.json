@@ -1,8 +1,0 @@
-{
-  "aliveStatusCodes": [200, 403, 418, 503],
-  "ignorePatterns": [
-    {
-      "pattern": "^https://www.naiss.se/$"
-    }
-  ]
-}
