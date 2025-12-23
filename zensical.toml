@@ -52,8 +52,7 @@ nav = [
 # The path provided should be relative to the "docs_dir".
 #
 # Read more: https://zensical.org/docs/customization/#additional-css
-#
-#extra_css = ["stylesheets/extra.css"]
+
 extra_css = ["stylesheets/extra.css"]
 
 # With the `extra_javascript` option you can add your own JavaScript to your
@@ -73,7 +72,7 @@ extra_javascript = [
 # ----------------------------------------------------------------------------
 [project.theme]
 
-logo = "/logo/naiss_logo_white.png"
+logo = "logo/naiss_logo_white.png"
 
 # change this to "classic" to use the traditional Material for MkDocs look.
 #variant = "classic"
