@@ -6,6 +6,10 @@
   background-repeat: no-repeat;
 }
 
+.reveal {
+  font-size: 38px;
+}
+
 .reveal iframe {
   max-width: 65%;
 }

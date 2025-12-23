@@ -1,6 +1,5 @@
 ---
 title: "Running AI/ML workloads on NAISS systems"
-author: "NAISS"
 ---
 
 
