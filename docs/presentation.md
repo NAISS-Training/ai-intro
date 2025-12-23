@@ -3,14 +3,13 @@ title: "Running AI/ML workloads on NAISS systems"
 author: "NAISS"
 ---
 
-<!-- TODO: Consider moving this to its own website -->
+
+## Scope
 
 <!-- At some point cover the specifics for Alvis: -->
 <!--    - C3SE_quota, where-are-my-files -->
 <!--    - job-killing -->
 <!--    - job_stats.py -->
-
-## Scope
 
 - Will be covered:
     - Introduction for running Deep Learning workloads on the main NAISS AI/ML resource
