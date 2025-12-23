@@ -1,6 +1,6 @@
 /* NAISS additions to white theme */
 .reveal-viewport {
-  background-image: url("/LLM-workshop/logo/naiss_logo_inverted.png");
+  background-image: url("/ai-intro/logo/naiss_logo_inverted.png");
   background-position: bottom 10px left 10px;
   background-size: 20em;
   background-repeat: no-repeat;
@@ -10,18 +10,10 @@
   max-width: 65%;
 }
 
-.reveal section {
-  text-align: left;
-}
-
 .reveal section img {
   background: transparent;
   border: 0;
   box-shadow: none;
-}
-
-.reveal {
-  font-size: 28px;
 }
 
 /* By default all titles are all-caps, don't want that */
