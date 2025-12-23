@@ -89,9 +89,8 @@ img.cluster_sketch{
 - In-house-developed web client:
     - <https://alvis1.c3se.chalmers.se>
     - <https://alvis2.c3se.chalmers.se>
-- Can also be accessed via desktop clients such as Windows Remote Desktop
-  Connection (Windows), FreeRDP/Remmina/krdc (Linux) and Windows App (Mac) at
-  <alvis1.c3se.chalmers.se> and <alvis2.c3se.chalmers.se> (standard port 3389).
+- Can also be accessed via any desktop client supporting RDP at
+  `alvis1.c3se.chalmers.se` and `alvis2.c3se.chalmers.se` (standard port 3389).
 - Desktop clients tend to offer better quality and more ergonomic experiences.
 - See
   [the documentation](https://www.c3se.chalmers.se/documentation/connecting/remote_graphics/#rdp-support)
@@ -101,7 +100,6 @@ img.cluster_sketch{
 - Cephyr `/cephyr/`, and Mimer `/mimer/` are parallel filesytems, accessible
   from all nodes
 - Backed up home directory at `/cephyr/users/<CID>/Alvis`
-  ([alt. use `~`](https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html))
 - Project storage at `/mimer/NOBACKUP/groups/<storage-name>`
 - The `C3SE_quota` shows you all your centre storage areas, usage and quotas.
     - On Cephyr see file usage with `where-are-my-files`
@@ -120,7 +118,7 @@ img.cluster_sketch{
 
 ### Software
 - [Containers](https://www.c3se.chalmers.se/documentation/miscellaneous/containers/) through Apptainer
-- Optimized software in [modules]
+- Optimized software in [modules](https://www.c3se.chalmers.se/documentation/module_system/modules/)
     - Flat module scheme, load modules directly
 - Read the [Python instructions](https://www.c3se.chalmers.se/documentation/module_system/python/) for installing your own Python packages
 
