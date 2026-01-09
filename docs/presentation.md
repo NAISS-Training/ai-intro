@@ -43,11 +43,11 @@ img.cluster_sketch{
 
 ### Connecting - Firewall
 
-![Cluster firewall only allows connection from within SUNET](images/cluster_firewall.png){.cluster_sketch}
-
 - Firewall limits connections to within
   [SUNET](https://www.sunet.se/om-sunet/anslutna-organisationer)
 - Use a [VPN](https://www.c3se.chalmers.se/documentation/connecting/#vpn) if needed
+
+![Cluster firewall only allows connection from within SUNET](images/cluster_firewall.png){.cluster_sketch}
 
 ### Log-in nodes
 
@@ -97,15 +97,15 @@ img.cluster_sketch{
   for more details
 
 ### Files and Storage
-- Cephyr `/cephyr/`, and Mimer `/mimer/` are parallel filesytems, accessible
+
+- `/cephyr/` and `/mimer/` are parallel filesytems, accessible
   from all nodes
 - Backed up home directory at `/cephyr/users/<CID>/Alvis`
 - Project storage at `/mimer/NOBACKUP/groups/<storage-name>`
 - The `C3SE_quota` shows you all your centre storage areas, usage and quotas.
-    - On Cephyr see file usage with `where-are-my-files`
+    - On `/cephyr` see file usage with `where-are-my-files`
 - File-IO is usually the limiting factor on parallel filesystems
-- If you can deal with a few large files instead of many small, that is
-  preferable
+- Prefer a few large files over many small
 
 ### Datasets
 
@@ -153,8 +153,7 @@ img.cluster_sketch{
 | A100fat | 80GB | 256 GB                | 16                | 2.2  |
 
 - Example: using 2xT4 GPUs for 10 hours costs 7 "GPU hours" (2 x 0.35 x 10).
-- The cost reflects the actual price of the hardware (normalised against an A40
-  node/GPU).
+- "Cost" is proportional to actual price of the hardware.
 
 ### Monitoring tools
 - You can SSH to nodes where you have an ongoing job
