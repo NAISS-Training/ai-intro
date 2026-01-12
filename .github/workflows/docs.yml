@@ -50,6 +50,15 @@ jobs:
               --css "${SITE_ROOT}stylesheets/slides.css"
           done
 
+      - name: Convert notebooks
+        run: |
+          for nb in demos/*.ipynb; do
+            if [ ! -f "$nb" ]; then
+              break
+            fi
+            jupyter nbconvert "$nb" --to html
+          done
+
       - name: Build site
         run: zensical build --clean
 
