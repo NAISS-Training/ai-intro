@@ -52,8 +52,10 @@ jobs:
 
       - name: Convert notebooks
         run: |
-          for nb in demos/*.ipynb; do
+          DOC_ROOT="docs/"
+          for nb in "${DOC_ROOT}"demos/*.ipynb; do
             if [ ! -f "$nb" ]; then
+              echo "ERROR! No notebooks found!" > /dev/stderr
               break
             fi
             jupyter nbconvert "$nb" --to html
