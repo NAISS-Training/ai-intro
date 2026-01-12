@@ -52,11 +52,12 @@ jobs:
 
       - name: Convert notebooks
         run: |
+          shopt -s globstar
           DOC_ROOT="docs/"
-          for nb in "${DOC_ROOT}"demos/*.ipynb; do
+          for nb in "${DOC_ROOT}"demos/**/*.ipynb; do
             if [ ! -f "$nb" ]; then
               echo "ERROR! No notebooks found!" > /dev/stderr
-              break
+              exit 1
             fi
             jupyter nbconvert "$nb" --to html
           done
