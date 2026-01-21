@@ -18,6 +18,7 @@ title: "Running AI/ML workloads on NAISS systems"
     - General HPC intro
 
 ## NAISS GPU resources overview
+
 1. **Alvis** (End-of-life 2026-06-30)
     - NVIDIA GPUs: 332 A40s, 318 A100s, 160 T4s, 44 V100s
     - Only for AI/ML
@@ -30,6 +31,7 @@ title: "Running AI/ML workloads on NAISS systems"
     - Only for sensitive data
 
 ## Alvis specifics
+
 - What is potentially different on Alvis?
 - See extended version at [Alvis introduction material](https://www.c3se.chalmers.se/documentation/first_time_users/intro-alvis/slides/)
 
@@ -117,6 +119,7 @@ img.cluster_sketch{
 - Read more on the [dataset](https://www.c3se.chalmers.se/documentation/software/machine_learning/datasets/) page and/or the respective README files
 
 ### Software
+
 - [Containers](https://www.c3se.chalmers.se/documentation/miscellaneous/containers/) through Apptainer
 - Optimized software in [modules](https://www.c3se.chalmers.se/documentation/module_system/modules/)
     - Flat module scheme, load modules directly
@@ -135,6 +138,7 @@ img.cluster_sketch{
 | 32    | [A100fat](https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-nvidia-us-2188504-web.pdf) | 8.0        | Icelake | Fast Mimer |
 
 ### SLURM specifics
+
 - Main allocatable resource is `--gpus-per-node=<GPU type>:<no. gpus>`
     - e.g. `#SBATCH --gpus-per-node=A40:1`
 - Cores and memory are allocated proportional to number of GPUs and related node type
@@ -156,15 +160,18 @@ img.cluster_sketch{
 - "Cost" is proportional to actual price of the hardware.
 
 ### Monitoring tools
+
 - You can SSH to nodes where you have an ongoing job
     - From where you can use CLI tools like `htop`, `nvidia-smi`, `nvtop`, ...
 - Use `job_stats.py <JOBID>` to view graphs of usage
 - `jobinfo -s` can be used to get a summary of currently available resources
 
 ## Running ML
+
 - How you run on GPUs with PyTorch and TensorFlow
 
 ### PyTorch
+
 - Move tensors or models to the GPU "by hand"
 
 ```python
@@ -174,10 +181,40 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 a = torch.Tensor([1, 1, 2, 3]).to(device)
 ```
 
+<!--    - Software recap -->
+<!--    - SLURM recap and allocating GPUs on NAISS SLURM clusters -->
+<!--    - Basic checkpointing for long running jobs (Do I want PyTorch lightning?, Yes, use it for this example at least) -->
+
+### PyTorch Lightning
+
+- Lightning is wrapper to hide PyTorch boilerplate
+- `Trainer` and `LightningModule` handles moving data/model to GPUs
+
+```python
+import lightning as L
+import torch
+
+
+class LightningTransformer(lightning.LightningModule):
+    def __init__(self, ...):
+        super().__init__()
+        self.model: torch.nn.Module = ...
+
+    def training_step(self, batch, batch_idx): ...
+
+    def configure_optimizers(self): ...
+```
+
+### Pytorch and PyTorch Lightning Basic Demo
+
+- [Demo](demos/pytorch/basics.html)
+
 ### TensorFlow
+
 - Automatically tries to use a single GPU
-- Will also pre-allocate GPU memory, obfuscating actual memory usage to external monitoring tools
+- Will also pre-allocate GPU memory, hiding actual memory usage to external monitoring tools
 - <https://www.tensorflow.org/guide/gpu>
+- Demo <!-- TODO - [Demo](demos/tf/basics.html) -->
 
 ```python
 import tensorflow as tf
@@ -185,41 +222,70 @@ import tensorflow as tf
 print(tf.config.list_physical_devices("GPU"))
 ```
 
-### Demos
-- PyTorch: TBD
-- TensorFlow: TBD
-
-<!--    - Software recap -->
-<!--    - SLURM recap and allocating GPUs on NAISS SLURM clusters -->
-<!--    - Basic checkpointing for long running jobs (Do I want PyTorch lightning?, Yes, use it for this example at least) -->
-
 ## Performance and GPUs
-- Floating point precision and GPU performance
-<!--    - Explain GPU-parallelism -->
-<!--    - Table for NVIDIA GPUs on all NAISS systems (optionally AMD table for Dardel) -->
+
+- What makes GPUs good for AI/ML?
+- And what to think about to get good performance out of it?
+
+### General-Purpose computing on GPUs
+
+- Single Instruction Multiple Threads
+    - Massively parallel on 1000s to 10000s of threads
+- Specialised Matrix-Multiply Units (Tensor Cores)
+    - Most DL architectures can be reduced to mostly GEneral Matrix Multiplications
+
+### Precision and performance (×10¹² OP/s)
+
+| Data type | GH200    | **A100** | **A40**   | **V100** | **T4** |
+| --------: | -------- | -------- | --------- | -------- | ------ |
+|      FP64 | 34       | 9.7      | 0.58      | 7.8      | 0.25   |
+|      FP32 | 67       | 19.5     | 37.4      | 15.7     | 8.1    |
+|      TF32 | 494\*²   | 156\*²   | 74.8\*²   | N/A      | N/A    |
+|      FP16 | 990\*²   | 312\*²   | 149.7\*²  | 125      | 65     |
+|      BF16 | 990\*²   | 312\*²   | 149.7\*²  | N/A      | N/A    |
+|       FP8 | 1979\*²  | N/A      | N/A       | N/A      | N/A    |
+|      Int8 | 1979\*²  | 624\*²   | 299.3\*²  | 64       | 130    |
+|      Int4 | N/A      | 1248\*²  | 598.7\*²  | N/A      | 260    |
+
+### GPU monitoring
+
+- `nvtop` & `nvidia-smi`
+- `job_stats.py JOBID` (Alvis/Vera only)
+- See profiling section later for more detailed results
+
+### Programming with precision
+
 <!--    - Mixed precision and how to select precision in PyTorch and TensorFlow -->
-<!--    - GPU monitoring (nvtop, job_stats.py (Alvis only)) -->
+- PyTorch
+- TensorFlow
 
 ## Performance and parallel filesystems
+
 - Performance considerations for data loading on parallel filesystems
 <!--    - Explain parallel filesystems or at least talk about FileIO -->
 <!--    - What to show? Arrow, Zip -->
+<!--    - Demos -->
 
 ## Profiling
+
 - Profiling your ML workload
 <!--    - Print statements with timestamps? -->
 <!--    - Figure out how PyTorchs new replacement work and get something useful from that -->
 <!--    - TensorFlow + TensorBoard -->
 <!--    - Scalene? Others? -->
+<!--    - Demos -->
 
 ## Multi-GPU parallelism
+
 - Multi-GPU parallelism
     - Conceptual overview
     - Data Parallellism
     - Fully Sharded Data Parallel
 <!--- Basics on HTC and random parameter search with job-arrays if time permits -->
+<!--    - Demos -->
 
 ## Basic LLM inference
+
 - vLLM
 <!--    - find_ports  -->
 <!--    - chat mode  -->
