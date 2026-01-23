@@ -247,9 +247,49 @@ print(tf.config.list_physical_devices("GPU"))
 |      Int8 | 1979\*²  | 624\*²   | 299.3\*²  | 64       | 130    |
 |      Int4 | N/A      | 1248\*²  | 598.7\*²  | N/A      | 260    |
 
+### TensorCores for GEMM computations
+
+- FP32 mixed precision GEMM computations with TF32
+    - TensorFlow does this by default
+    - PyTorch only for convolutions by default
+    - [`torch.set_float32_matmul_precision('high')`](https://docs.pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html) to enable for matmul
+- Tensor dimensions must be multiple of 8
+
+### Automatic Mixed Precision
+
+- Calculate with float16 when possible
+- Uses loss scaling to not loose small gradient values
+- Read more: [source](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#amp), [NVIDIA](https://developer.nvidia.com/automatic-mixed-precision), [PyTorch](https://docs.pytorch.org/docs/stable/amp.html), [TensorFlow](https://www.tensorflow.org/guide/mixed_precision)
+
+### Tensor Core Shape Constraints
+
+- To use TensorCores in FP16 precision the following should be in a multiple of 8 in FP16 ([source](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape)):
+
+1. Mini-batch
+2. Linear layer width/dimension
+3. Convolutional layer channel count
+4. Vocabulary size in classification problems (pad if needed)
+5. Sequence length (pad if needed)
+
+### Arithmetic Intensity
+
+- Computational work in a CUDA kernel per input byte
+- If too low you're memory bound
+- To increase:
+    - Concatenate tensors when suitable for larger inputs to layers
+    - Use [channels last format](https://docs.pytorch.org/tutorials/intermediate/memory_format_tutorial.html#performance-gains) for conv layers
+    - Wider layers (but only if it makes sense)
+
+### Don't Forget Non-Tensor Core Operations
+
+- Non-Tensor Cores operations are up to 10x slower
+    - Optimising/reducing these can give most overall improvement
+- Compiling models can help (JIT, XLA)
+
 ### GPU monitoring
 
 - `nvtop` & `nvidia-smi`
+    - utilization: percent of time any SM is used (not percent of SMs used)
 - `job_stats.py JOBID` (Alvis/Vera only)
 - See profiling section later for more detailed results
 
@@ -279,9 +319,10 @@ print(tf.config.list_physical_devices("GPU"))
 
 - Multi-GPU parallelism
     - Conceptual overview
+    - Task Parallelism  <!-- job-arrays -->
     - Data Parallellism
     - Fully Sharded Data Parallel
-<!--- Basics on HTC and random parameter search with job-arrays if time permits -->
+<!--    - TensorParallel -->
 <!--    - Demos -->
 
 ## Basic LLM inference
