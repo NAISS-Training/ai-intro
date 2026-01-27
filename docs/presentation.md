@@ -5,6 +5,13 @@ title: "Running AI/ML workloads on NAISS systems"
 
 ## Scope
 
+<!-- Additional css specific to this presentation -->
+<style>
+img.cluster_sketch{
+  max-width: 80%;
+}
+</style>
+
 <!-- At some point cover the specifics for Alvis: -->
 <!--    - C3SE_quota, where-are-my-files -->
 <!--    - job-killing -->
@@ -35,11 +42,6 @@ title: "Running AI/ML workloads on NAISS systems"
 - What is potentially different on Alvis?
 - See extended version at [Alvis introduction material](https://www.c3se.chalmers.se/documentation/first_time_users/intro-alvis/slides/)
 
-<style>
-img.cluster_sketch{
-  max-width: 80%;
-}
-</style>
 
 ![The cluster environment](images/cluster_sketch.png){.cluster_sketch}
 
@@ -291,13 +293,14 @@ print(tf.config.list_physical_devices("GPU"))
 - `nvtop` & `nvidia-smi`
     - utilization: percent of time any SM is used (not percent of SMs used)
 - `job_stats.py JOBID` (Alvis/Vera only)
+    - power consumption as proxy for occupancy
 - See profiling section later for more detailed results
 
-### Programming with precision
-
-<!--    - Mixed precision and how to select precision in PyTorch and TensorFlow -->
-- PyTorch
-- TensorFlow
+<!-- ### Programming with precision -->
+<!--  -->
+<!-- <!--    - Mixed precision and how to select precision in PyTorch and TensorFlow --> -->
+<!-- - PyTorch -->
+<!-- - TensorFlow -->
 
 ## Performance and parallel filesystems
 
@@ -305,6 +308,30 @@ print(tf.config.list_physical_devices("GPU"))
 <!--    - Explain parallel filesystems or at least talk about FileIO -->
 <!--    - What to show? Arrow, Zip -->
 <!--    - Demos -->
+
+### The parallel filesystem
+
+![The parallel filesystem](images/parallel_filesystem.svg)
+
+### Striping on parallel filesystems
+
+![Striping on parallel filesystems](images/parallel_filesio.svg)
+
+### Small vs big files
+
+![Metadata bound](images/small_vs_big_animated.svg)
+
+### Performance suggestions
+- Prefer a few large files over many small
+  - Many good implementations: HDF5, NetCDF, Arrow, Safetensors, ...
+- Containers are faster for python environments on start-up
+
+<!-- ### Tiered storage and caching -->
+<!-- - Storage on Alvis is tiered -->
+<!--   - Recently used files is probably on faster tier -->
+<!--   - (On Arrhenius placement will probably be fixed) -->
+<!-- - Nodes cache recently read files in memory (if there is space) -->
+<!--   - If dataset easily fits into memory, only first epoch is slow -->
 
 ## Profiling
 
