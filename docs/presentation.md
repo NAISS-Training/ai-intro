@@ -342,6 +342,34 @@ print(tf.config.list_physical_devices("GPU"))
 <!--    - Scalene? Others? -->
 <!--    - Demos -->
 
+### Print "profiling""
+
+- First thing to try, print what you want to know
+  - Run with `python -u` for unbuffered mode
+
+```
+import time
+
+t0 = time.time()
+...  # your code here
+print(f"ran ... in {time.time() - t0} s")
+```
+
+### Scalene
+
+- General Python profiler for both CPU, GPU and memory
+
+```
+python -m scalene run my_script.py
+python -m scalene --cli
+```
+
+<!-- Queue demo -->
+
+### PyTorch profiler
+
+### TensorFlow profiler and TensorBoard
+
 ## Multi-GPU parallelism
 
 - Multi-GPU parallelism
