@@ -29,9 +29,9 @@ img.cluster_sketch{
 1. **Alvis** (End-of-life 2026-06-30)
     - NVIDIA GPUs: 332 A40s, 318 A100s, 160 T4s, 44 V100s
     - Only for AI/ML
-2. Arrhenius (to be in operation spring 2026)
+2. Arrhenius (to be in operation Q2 2026)
     - 1528 NVIDIA GH200s
-3. Dardel
+3. Dardel (Probably end-of-life 2026)
     - 248 AMD MI250X
 4. Bianca
     - 20 NVIDIA A100s
@@ -347,7 +347,7 @@ print(tf.config.list_physical_devices("GPU"))
 - First thing to try, print what you want to know
   - Run with `python -u` for unbuffered mode
 
-```
+```python
 import time
 
 t0 = time.time()
@@ -357,9 +357,11 @@ print(f"ran ... in {time.time() - t0} s")
 
 ### Scalene
 
-- General Python profiler for both CPU, GPU and memory
+- General sampling Python profiler for both CPU, GPU and memory
+- Jupyter: `%load_ext scalene` + `%%scalene`
+- Lightning: [Clash pre Scalene v2.1.0](https://github.com/plasma-umass/scalene/pull/977)
 
-```
+```bash
 python -m scalene run my_script.py
 python -m scalene --cli
 ```
@@ -368,7 +370,26 @@ python -m scalene --cli
 
 ### PyTorch profiler
 
+```python
+# Plain PyTorch https://docs.pytorch.org/tutorials/recipes/recipes/profiler_recipe.html
+from torch.profiler import profile
+with profile(...) as prof:
+  ...  # run the code you want to profile
+print(prof.key_averages().table())
+prof.export_trace("trace.json")
+
+# PyTorch Lightning https://lightning.ai/docs/pytorch/stable/api_references.html#profiler
+trainer = Trainer(..., profiler="pytorch")
+...
+```
+
+- use <https://ui.perfetto.dev/> to view JSON trace files
+
+<!-- Queue demo -->
+
 ### TensorFlow profiler and TensorBoard
+
+<!-- TODO -->
 
 ## Multi-GPU parallelism
 
