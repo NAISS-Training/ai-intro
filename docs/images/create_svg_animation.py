@@ -14,13 +14,26 @@ def animate_small_vs_big(
     ns = {"svg": SVG_NS}
 
     duration = 30
-    steps = 35
+    steps = 25
+    io_wait_fraction = 0.1
 
     x_shift = 150
 
     # Small file animations
+    # 0: Start
+    # t1: envelope1 arrive to meet-up, file1 move start
+    # t2: file1 ariving, both start moving
+    # t2+dt: envelope2 moving
+    # t3: envelope2 arriving, file2 start moving
+    # t4: file2 arriving, both start moving
+    # t4+dt: envelope3 start moving
+    # ...
 
     # Envelopes
+    # 1: 0, t1, t2
+    # 2: t2+dt, t3, t4
+    # 3: t4+dt, t5, t6
+    # ...
     small_envelope_gids = [
         "g63020",
         "g63020-6",
@@ -34,16 +47,20 @@ def animate_small_vs_big(
         "g63020-97",
         "g63020-3",
     ]
-    key_times = sorted(f"{i / steps}" for i in range(3 * len(small_envelope_gids) + 1))
-    key_times.append("1")
     for i_gid, gid in enumerate(small_envelope_gids):
         group = root.find(f".//svg:g[@id='{gid}']", ns)
         if group is None:
             raise RuntimeError(f"Didn't find group by ID {gid}")
 
-        x_values = [0 if (i / 3) < (i_gid + 1) else x_shift for i in range(len(key_times))]
+        key_steps = [0, 1, 2] + [
+            2 * (i_envelope + 1) + t_sub
+            for i_envelope in range(i_gid)
+            for t_sub in [io_wait_fraction, 1, 2]
+        ] + [2 * i_gid + 3, steps]
+        print(i_gid, key_steps)
+        x_values = [0 if (i / 3) < (i_gid + 1) else x_shift for i in range(len(key_steps))]
         y_values = [0] + [
-            20 + (3 + 2 / 3) * int(i // 3) for i in range(len(key_times))
+            20 + (3 + 2 / 3) * int(i // 3) for i in range(len(key_steps) - 1)
         ]
         animate = ET.Element(
             "animateTransform",
@@ -53,7 +70,7 @@ def animate_small_vs_big(
                 "type": "translate",
                 "dur": f"{duration}s",
                 "fill": "freeze",
-                "keyTimes": ";".join(key_times),
+                "keyTimes": ";".join(f"{step / steps}" for step in key_steps),
                 "values": ";".join([f"{x} {y}" for x, y in zip(x_values, y_values)]),
                 "repeatCount": "indefinite",
             },
@@ -62,6 +79,11 @@ def animate_small_vs_big(
         group.append(animate)
 
     # Files
+    # 0: 0
+    # 1: t1, t2, t3
+    # 2: t3, t4, t4
+    # 3: t5, t6, t7
+    # ...
     small_file_ids_pos: list[tuple[str, tuple[float, float]]] = [
         ("g30423", (47., -30.)),
         ("g35633", (30.5, -63.)),
@@ -81,7 +103,7 @@ def animate_small_vs_big(
             raise RuntimeError(f"Didn't find group by ID {gid}")
 
         step_size = 1 / steps
-        central_time = (3 * i_gid + 2) * step_size
+        central_time = (2 * i_gid + 2) * step_size
         key_times = [0, central_time - step_size, central_time, central_time + step_size, 1]
 
         x_values = [0, 0, x_pos, x_pos + x_shift, x_pos + x_shift]
