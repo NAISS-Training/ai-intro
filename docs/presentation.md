@@ -359,7 +359,7 @@ print(f"ran ... in {time.time() - t0} s")
 
 - General sampling Python profiler for both CPU, GPU and memory
 - Jupyter: `%load_ext scalene` + `%%scalene`
-- Lightning: [Clash pre Scalene v2.1.0](https://github.com/plasma-umass/scalene/pull/977)
+- Lightning: [Issue, solved in](https://github.com/plasma-umass/scalene/pull/977) Scalene >= v2.1.0
 
 ```bash
 python -m scalene run my_script.py
@@ -389,17 +389,68 @@ trainer = Trainer(..., profiler="pytorch")
 
 ### TensorFlow profiler and TensorBoard
 
-<!-- TODO -->
+- [Install](https://www.tensorflow.org/guide/profiler#install_the_profiler_and_gpu_prerequisites) `tensorboard_plugin_profile`
+- [Use TensorBoard callback](https://www.tensorflow.org/guide/profiler#collect_performance_data)
+
+```python
+# Profile from batches 10 to 15
+tb_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
+```
+
+<!-- Queue demo -->
 
 ## Multi-GPU parallelism
 
-- Multi-GPU parallelism
-    - Conceptual overview
-    - Task Parallelism  <!-- job-arrays -->
-    - Data Parallellism
-    - Fully Sharded Data Parallel
-<!--    - TensorParallel -->
-<!--    - Demos -->
+- Task parallelism
+  - Embarassingly parallel
+- Data parallelism, for speed-up
+  - For speed-up when single GPU efficiency is already good
+- Flavours of model parallelism
+  - When the model doesn't fit on the GPU
+
+### Task parallelism
+
+- When little to no communication is needed
+  - Inference on different data
+  - Training with different set-up (e.g. hyperparameter tuning)
+- Use [job-arrays](https://www.c3se.chalmers.se/documentation/submitting_jobs/running_jobs/#running-job-arrays) or [task farms](https://www.c3se.chalmers.se/documentation/miscellaneous/hyperqueue/)
+
+### Distributed Data Parallelism
+
+- Copy the model to each GPU and feed them different data
+  - Communicate gradient updates (all-reduce)
+
+![Data parallelism](images/ddp.svg)
+
+### Pipeline parallelism
+
+![Pipeline parallelism](images/pp.svg)
+
+### Tensor Parallelism
+
+- [Megatron LM paper](https://doi.org/10.48550/arXiv.1909.08053) paired row and column parallel layers
+
+$$
+  \begin{aligned}
+    x_{\cdot i}^{(n+1)} &= \mathrm{Act}\left(x^{(n)}l^{(n)}_{{\cdot}i} + b^{(n)}_{\cdot i}\right), \\
+    x^{(n+2)} &= \mathrm{Act}\left(\mathrm{AllReduce}_i\left( x^{(n+1)}_{{\cdot}i}l^{(n+1)}_{i\cdot}\right) + b^{(n)}\right).
+  \end{aligned}
+$$
+
+
+### Fully Sharded Data Parallel
+
+- Not available in TensorFlow
+- All parameter tensors are fully distributed (Fully Sharded)
+- Each GPU computes their own mini-batch (Data Parallel)
+
+### PyTorch
+
+- [Overview](https://docs.pytorch.org/tutorials/beginner/dist_overview.html)
+- [Distributed Data Parallel](https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html)
+- [Fully Sharded Data Parallel](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html)
+
+<!-- Queue demo x2 -->
 
 ## Basic LLM inference
 
