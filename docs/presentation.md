@@ -426,6 +426,15 @@ tb_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
 
 ![Pipeline parallelism](images/pp.svg)
 
+
+### Fully Sharded Data Parallel
+
+- Not available in TensorFlow
+- All parameter tensors are fully distributed (Fully Sharded)
+- Each GPU computes their own mini-batch (Data Parallel)
+
+![Fully Sharded Data Parallel](images/fsdp.svg)
+
 ### Tensor Parallelism
 
 - [Megatron LM paper](https://doi.org/10.48550/arXiv.1909.08053) paired row and column parallel layers
@@ -436,13 +445,6 @@ $$
     x^{(n+2)} &= \mathrm{Act}\left(\mathrm{AllReduce}_i\left( x^{(n+1)}_{{\cdot}i}l^{(n+1)}_{i\cdot}\right) + b^{(n)}\right).
   \end{aligned}
 $$
-
-
-### Fully Sharded Data Parallel
-
-- Not available in TensorFlow
-- All parameter tensors are fully distributed (Fully Sharded)
-- Each GPU computes their own mini-batch (Data Parallel)
 
 ### PyTorch
 
