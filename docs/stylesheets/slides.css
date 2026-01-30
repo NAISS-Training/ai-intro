@@ -33,7 +33,7 @@
 
 /* Change how blockquotes look */
 .reveal blockquote {
-  font-size: 0.7em;
+  font-size: 0.5em;
   font-style: italic;
   color: #555;              /* softer text color */
   border-left: 4px solid #888;
