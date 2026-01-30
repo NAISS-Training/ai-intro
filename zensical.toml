@@ -41,6 +41,7 @@ repo_url = "https://github.com/NAISS-Training/ai-intro/"
 # "docs_dir".
 nav = [
   {"Start" = "index.md"},
+  {"Presentation" = "presentation.md"},
   {"Demos" = "demos/index.md"},
 ]
 
