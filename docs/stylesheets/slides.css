@@ -41,7 +41,8 @@
   background: none;         /* remove default background */
 }
 .reveal blockquote p {
-  margin-bottom: 0;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
 }
 
 /* hide invisible fragments */
