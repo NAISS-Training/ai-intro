@@ -40,6 +40,9 @@
   padding-left: 1em;
   background: none;         /* remove default background */
 }
+.reveal blockquote p {
+  margin-bottom: 0;
+}
 
 /* hide invisible fragments */
 .fragment.current-visible.visible:not(.current-fragment) {
