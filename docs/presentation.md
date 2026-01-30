@@ -446,6 +446,40 @@ $$
   \end{aligned}
 $$
 
+### Aside: Finding Free Ports
+
+- Needed for a variety of different softwares, including `torchrun`
+- `find_ports` CLI utility available on Alvis
+
+```python
+import random
+import socket
+
+
+def get_free_ports(num_ports=1):
+    ports = list(range(2**15, 2**16))
+    random.shuffle(ports)  # randomize to minimize risk of clashes
+    free_ports = []
+
+    for port in ports:
+        if len(free_ports) >= num_ports:
+            break
+
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(('', port))
+                s.close()
+                free_ports.append(port)  # if succesful, add port to list
+            except OSError:
+                continue # if port is in use, try another one
+
+    if len(free_ports) < num_ports:
+        raise RuntimeError("Not enough free ports.")
+
+    return free_ports
+```
+
+
 ### PyTorch
 
 - [Overview](https://docs.pytorch.org/tutorials/beginner/dist_overview.html)
@@ -454,11 +488,26 @@ $$
 
 <!-- Queue demo x2 -->
 
+### TensorFlow
+
+<!-- TODO what demos -->
+
+
 ## Basic LLM inference
 
-- vLLM
-<!--    - find_ports  -->
-<!--    - chat mode  -->
-<!--    - batch mode  -->
-<!--    - model parallelism -->
-<!--    - for more recommend NAISS LLM Workshop -->
+<!-- TODO fill out -->
+
+### HuggingFace Transformers Set-up
+
+- Used by most LLM inference engines
+- By defaults saves full models in home directory (out-of-quota)
+  - Set `HF_HOME` or if already downloaded specify absolute paths to models
+
+### vLLM Inference Engine
+
+<!-- TODO what to demo? -->
+
+### Further learning on LLMs
+
+- NAISS LLM Workshop planned for later in 2026
+  - To be announced in the NAISS Training Newsletter
