@@ -250,9 +250,9 @@ print(tf.config.list_physical_devices("GPU"))
 ### TensorCores for GEMM computations
 
 - FP32 mixed precision GEMM computations with TF32
-    - TensorFlow does this by default
+    - TensorFlow (and Lightning) does this by default
     - PyTorch only for convolutions by default
-    - [`torch.set_float32_matmul_precision('high')`](https://docs.pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html) to enable for matmul
+      - [`torch.set_float32_matmul_precision('high')`](https://docs.pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html) to enable for matmul
 - Tensor dimensions must be multiple of 8
 
 ### Automatic Mixed Precision
@@ -366,11 +366,11 @@ print(f"ran ... in {time.time() - t0} s")
 
 - General sampling Python profiler for both CPU, GPU and memory
 - Jupyter: `%load_ext scalene` + `%%scalene`
-- Lightning: [Issue, solved in](https://github.com/plasma-umass/scalene/pull/977) Scalene >= v2.1.0
+- Lightning: [Might be buggy with Scalene](https://github.com/plasma-umass/scalene/pull/977)
 
 ```bash
 python -m scalene run my_script.py
-python -m scalene --cli
+python -m scalene view --cli
 ```
 
 <!-- Queue demo -->
