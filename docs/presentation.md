@@ -181,10 +181,6 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 a = torch.Tensor([1, 1, 2, 3]).to(device)
 ```
 
-<!--    - Software recap -->
-<!--    - SLURM recap and allocating GPUs on NAISS SLURM clusters -->
-<!--    - Basic checkpointing for long running jobs (Do I want PyTorch lightning?, Yes, use it for this example at least) -->
-
 ### PyTorch Lightning
 
 - Lightning is wrapper to hide PyTorch boilerplate
@@ -207,14 +203,14 @@ class LightningTransformer(lightning.LightningModule):
 
 ### Pytorch and PyTorch Lightning Basic Demo
 
-- [Demo](demos/pytorch/basics.html)
+- [Demo](demos/torch_basics.html)
 
 ### TensorFlow
 
 - Automatically tries to use a single GPU
 - Will also pre-allocate GPU memory, hiding actual memory usage to external monitoring tools
 - <https://www.tensorflow.org/guide/gpu>
-- Demo <!-- TODO - [Demo](demos/tf/basics.html) -->
+- [Demo](demos/tf_basics.html)
 
 ```python
 import tensorflow as tf
@@ -294,12 +290,6 @@ print(tf.config.list_physical_devices("GPU"))
     - power consumption as proxy for occupancy
 - See profiling section later for more detailed results
 
-<!-- ### Programming with precision -->
-<!--  -->
-<!-- <!--    - Mixed precision and how to select precision in PyTorch and TensorFlow --> -->
-<!-- - PyTorch -->
-<!-- - TensorFlow -->
-
 ## Performance and parallel filesystems
 
 - Performance considerations for data loading on parallel filesystems
@@ -373,8 +363,6 @@ python -m scalene run my_script.py
 python -m scalene view --cli
 ```
 
-<!-- Queue demo -->
-
 ### PyTorch profiler
 
 ```python
@@ -401,7 +389,7 @@ trainer = Trainer(..., profiler="pytorch")
 
 ```python
 # Profile from batches 10 to 15
-tb_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
+tb_callback = tf.keras.callbacks.TensorBoard(profile_batch="10, 15")
 ```
 
 <!-- Queue demo -->
@@ -464,12 +452,11 @@ $$
 
 ### TensorFlow
 
-<!-- TODO what demos -->
-
+- [MultiWorkerMirroredStrategy](https://www.tensorflow.org/api_docs/python/tf/distribute/MultiWorkerMirroredStrategy)
 
 ## Basic LLM inference
 
-<!-- TODO fill out -->
+- The very basics
 
 ### Aside: Finding Free Ports
 
@@ -514,7 +501,8 @@ def get_free_ports(num_ports=1):
 
 <!-- TODO what to demo? -->
 
-### Further learning on LLMs
+### Further learning
 
 - NAISS LLM Workshop planned for later in 2026
   - To be announced in the NAISS Training Newsletter
+- [Alvis tutorial](https://github.com/c3se/alvis-intro) (slightly dated)
