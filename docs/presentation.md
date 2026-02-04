@@ -453,9 +453,27 @@ $$
   \end{aligned}
 $$
 
+
+### PyTorch
+
+- [Overview](https://docs.pytorch.org/tutorials/beginner/dist_overview.html)
+- [Distributed Data Parallel](https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html)
+- [Fully Sharded Data Parallel](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html)
+
+<!-- Queue demo x2 -->
+
+### TensorFlow
+
+<!-- TODO what demos -->
+
+
+## Basic LLM inference
+
+<!-- TODO fill out -->
+
 ### Aside: Finding Free Ports
 
-- Needed for a variety of different softwares, including `torchrun`
+- Needed for a variety of different softwares, including `torchrun`, `vllm` and `ray`
 - `find_ports` CLI utility available on Alvis
 
 ```python
@@ -486,29 +504,11 @@ def get_free_ports(num_ports=1):
     return free_ports
 ```
 
-
-### PyTorch
-
-- [Overview](https://docs.pytorch.org/tutorials/beginner/dist_overview.html)
-- [Distributed Data Parallel](https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html)
-- [Fully Sharded Data Parallel](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html)
-
-<!-- Queue demo x2 -->
-
-### TensorFlow
-
-<!-- TODO what demos -->
-
-
-## Basic LLM inference
-
-<!-- TODO fill out -->
-
 ### HuggingFace Transformers Set-up
 
 - Used by most LLM inference engines
 - By defaults saves full models in home directory (out-of-quota)
-  - Set `HF_HOME` or if already downloaded specify absolute paths to models
+  - Set `HF_HOME` or if already downloaded specify absolute paths to model snapshot directory
 
 ### vLLM Inference Engine
 
