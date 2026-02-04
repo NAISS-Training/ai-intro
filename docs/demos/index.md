@@ -26,4 +26,10 @@ Multi-GPU parallelism is the next step when one GPU is too small:
   - Use some flavour of model parallelism.
 
 ## Basic LLM inference
-<!-- TODO -->
+
+Remember to set `HF_HOME` to your project storage before downloading models. If you're using provided models, specify path to specific snapshots like e.g.
+
+```bash
+vllm serve "/mimer/NOBACKUP/Datasets/LLM/huggingface/hub/models--HuggingFaceTB--SmolLM3-3B/snapshots/a07cc9a04f16550a088caea529712d1d335b0ac1/"
+```
+
