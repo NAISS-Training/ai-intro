@@ -293,9 +293,6 @@ print(tf.config.list_physical_devices("GPU"))
 ## Performance and parallel filesystems
 
 - Performance considerations for data loading on parallel filesystems
-<!--    - Explain parallel filesystems or at least talk about FileIO -->
-<!--    - What to show? Arrow, Zip -->
-<!--    - Demos -->
 
 ### The parallel filesystem
 
@@ -499,10 +496,17 @@ def get_free_ports(num_ports=1):
 
 ### vLLM Inference Engine
 
-<!-- TODO what to demo? -->
+- `vllm serve` serves an LLM endpoint talking OpenAI API
+  - `--tensor-parallel-size="$SLURM_GPUS_ON_NODE"`
+  - `--pipeline-parallel-size="$SLURM_NNODES"`
+- [Alvis documentation](https://www.c3se.chalmers.se/documentation/software/machine_learning/vllm/)
 
-### Further learning
+### Further learning on LLMs
 
 - NAISS LLM Workshop planned for later in 2026
   - To be announced in the NAISS Training Newsletter
+
+## Further learning
 - [Alvis tutorial](https://github.com/c3se/alvis-intro) (slightly dated)
+- NAISS Training Events: <https://www.naiss.se/training/>
+- Questions related to training events: <https://supr.naiss.se/support/?problem_type=training_event>
