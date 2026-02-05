@@ -91,7 +91,7 @@ img.cluster_sketch{
     - <https://alvis2.c3se.chalmers.se>
 - Can also be accessed via any desktop client supporting RDP at
   `alvis1.c3se.chalmers.se` and `alvis2.c3se.chalmers.se` (standard port 3389).
-- Desktop clients tend to offer better quality and more ergonomic experiences.
+- Desktop clients tend to give a better experience.
 - See
   [the documentation](https://www.c3se.chalmers.se/documentation/connecting/remote_graphics/#rdp-support)
   for more details
@@ -103,14 +103,14 @@ img.cluster_sketch{
 - Backed up home directory at `/cephyr/users/<CID>/Alvis`
 - Project storage at `/mimer/NOBACKUP/groups/<storage-name>`
 - The `C3SE_quota` shows you all your centre storage areas, usage and quotas.
-    - On `/cephyr` see file usage with `where-are-my-files`
+    - `where-are-my-files` available on `/cephyr`
 - File-IO is usually the limiting factor on parallel filesystems
 - Prefer a few large files over many small
 
 ### Datasets
 
 - When allowed, we provide popular datasets at `/mimer/NOBACKUP/Datasets/`
-- To request an additional dataset, do so through the [support form](https://supr.naiss.se/support/?problem_type=other&centre_resource=r75)
+- Request additional dataset through the [support form](https://supr.naiss.se/support/?problem_type=other&centre_resource=r75)
 - It is your responsibility to make sure you comply with any licenses and limitations
     - In all cases only for non-commercial research applications
     - Citation often needed
@@ -155,7 +155,6 @@ img.cluster_sketch{
 | A100fat | 80GB | 256 GB                | 16                | 2.2  |
 
 - Example: using 2xT4 GPUs for 10 hours costs 7 "GPU hours" (2 x 0.35 x 10).
-- "Cost" is proportional to actual price of the hardware.
 
 ### Monitoring tools
 
@@ -434,7 +433,7 @@ tb_callback = tf.keras.callbacks.TensorBoard(profile_batch="10, 15")
 $$
   \begin{aligned}
     x_{\cdot i}^{(n+1)} &= \mathrm{Act}\left(x^{(n)}l^{(n)}_{{\cdot}i} + b^{(n)}_{\cdot i}\right), \\
-    x^{(n+2)} &= \mathrm{Act}\left(\mathrm{AllReduce}_i\left( x^{(n+1)}_{{\cdot}i}l^{(n+1)}_{i\cdot}\right) + b^{(n)}\right).
+    x^{(n+2)} &= \mathrm{Act}\left(\mathrm{AllReduce}^{\sum}_i\left( x^{(n+1)}_{{\cdot}i}l^{(n+1)}_{i\cdot}\right) + b^{(n)}\right).
   \end{aligned}
 $$
 
