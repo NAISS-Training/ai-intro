@@ -78,7 +78,6 @@ img.cluster_sketch{
     - RStudio
     - VSCode
 - Launch apps on log-in nodes
-    - TensorBoard
     - Desktop
 - See our [documentation](https://www.c3se.chalmers.se/documentation/connecting/ondemand/) for more
 

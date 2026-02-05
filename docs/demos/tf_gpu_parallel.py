@@ -6,8 +6,6 @@ from glob import iglob
 import numpy as np
 import tensorflow as tf
 from tensorflow.data import Dataset, AUTOTUNE
-from tensorflow.distribute import MultiWorkerMirroredStrategy
-from tensorflow.distribute.cluster_resolver import SlurmClusterResolver
 from tensorflow.keras import mixed_precision
 from tensorflow.keras.losses import SparseCategoricalCrossentropy
 from tensorflow.keras.metrics import SparseCategoricalAccuracy
@@ -53,11 +51,13 @@ def get_train_dataset(
     dataset = dataset.map(transform)
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(AUTOTUNE)
+    dataset = dataset.repeat()
     return dataset
 
 
 def main():
     args = parser.parse_args()
+    batch_size = 512
 
     # Select dtype policy
     # N.B. needs to be done before layer creation
@@ -65,25 +65,25 @@ def main():
         mixed_precision.set_global_policy(args.dtype_policy)
 
     # Data parallelism set-up
-    cluster_resolver = SlurmClusterResolver()
-    strategy = MultiWorkerMirroredStrategy(cluster_resolver=cluster_resolver)
-    with strategy:
-        model = VisionTransformer(
-            num_classes=10, embed_dim=512, num_heads=512, depth=64
-        )
+    cluster_resolver = tf.distribute.cluster_resolver.SlurmClusterResolver()
+    strategy = tf.distribute.MultiWorkerMirroredStrategy(cluster_resolver=cluster_resolver)
+    with strategy.scope():
+        model = CNN(num_classes=10)
+        metrics = [SparseCategoricalAccuracy(name="acc")]
     model.compile(
         optimizer=AdamW(learning_rate=1e-3),
         loss=SparseCategoricalCrossentropy(from_logits=True),
-        metrics=[SparseCategoricalAccuracy(name="acc")],
+        metrics=metrics,
     )
 
-    dataset = get_train_dataset(batch_size=512)  # global batch size
+    dataset = get_train_dataset(batch_size=batch_size)  # global batch size
     dist_dataset = strategy.experimental_distribute_dataset(dataset)
 
     # Run the training
     history = model.fit(
         dist_dataset,
         epochs=5,
+        steps_per_epoch=(50_000 // batch_size),  # needed parameter with dist data
     )
 
 
